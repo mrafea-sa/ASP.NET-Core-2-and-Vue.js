@@ -23,7 +23,21 @@ namespace ECommerce.Data
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       base.OnModelCreating(modelBuilder);
-
+      AppUser AdministratorAccount = new AppUser
+            {
+                Id = 1,
+                FirstName = "Stu",
+                LastName = "Ratcliffe",
+                UserName = "stu@ratcliffe.io",
+                Email = "stu@ratcliffe.io",
+                EmailConfirmed = true,
+                LockoutEnabled = false
+            };
+           
+            var passwordHasher = new PasswordHasher<AppUser>();
+            string passwordHash = passwordHasher.HashPassword(AdministratorAccount, "Password1*");
+            AdministratorAccount.PasswordHash = passwordHash;
+            modelBuilder.Entity<AppUser>().HasData(AdministratorAccount);
       modelBuilder.Entity<Product>()
         .HasIndex(b => b.Slug)
         .IsUnique();
